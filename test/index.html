@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Tests</title>
+
+<script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="application/javascript" src="../source.js"></script>
+<script>
+$(function(){
+	// will attempt to stay on screen but be contained
+	$('#slider1').keepVisible({contain: true});
+
+	// will just stay on screen
+	$('#slider2').keepVisible();
+	$('#slider2a').keepVisible(true);
+	$('#slider3').keepVisible();
+	$('#slider4').keepVisible();
+});
+</script>
+
+<style>
+#header {
+	height: 200px;
+	background: #fee;
+}
+#page {
+	border: 10px solid #ccc;
+}
+
+.slide-container {
+	width: 200px;
+	height: 1000px;
+	float: left;
+	background: #eef;
+
+}
+#content {
+	background: #efe;
+	margin-left: 820px;
+}
+#footer {
+	height: 200px;
+	background: #fee;
+}
+
+
+
+#slider1, #slider2, #slider2a, #slider3, #slider4 {
+	border: 4px solid red;
+	padding: 30px 5px;
+	background: white;
+}
+
+.placeholder {
+	background: #aaa;
+}
+</style>
+
+
+
+
+</head>
+<body>
+
+
+<div id="header">this isa header</div>
+
+<div id="page">
+
+	<div class="slide-container">
+		<div id="slider1">this slideer is small</div>
+
+	<div> this is some content after the slider</div>
+	</div>
+	<div class="slide-container">
+		<div id="slider2">this slider is large and will hit the bottom of the screen
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+		</div>
+		<div> this is some content after the slider</div>
+
+	</div>
+	<div class="slide-container">
+		<div id="slider2a">this slider is large and will hit the bottom of the screen
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+		</div>
+		<div> this is some content after the slider</div>
+	</div>
+
+	<div class="slide-container">
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+	<div> this is some really long content before the slider</div>
+
+	<div> this is some really long content before the slider</div>
+		<div id="slider3">this is my special content</div>
+	</div>
+
+	<div id="content">
+		<p>	erehetet</p>
+		<div id="slider4">This is some more content to slide</div>
+
+	</div>
+	<div> this is some content after the slider</div>
+
+	<div style="clear: both"></div>
+
+</div>
+
+<div id="footer">this is a footer</div>
+
+</body>
+
+</html>
+
