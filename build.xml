@@ -55,13 +55,6 @@
 			<arg line="-o" />
 			<arg path="${JS_MIN}" />
 		</java>
-		<java fork="true" jar="${lib}/yuicompressor-2.4.2.jar">
-			<arg line="--type=css" />
-			<arg path="${CSS}" />
-			<arg line="-v" />
-			<arg line="-o" />
-			<arg path="${CSS_MIN}" />
-		</java>
 		<echo message="${JS_MIN} and ${CSS_MIN} built." />
 	</target>
 

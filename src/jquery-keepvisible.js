@@ -1,5 +1,4 @@
 /*
-
 Two use cases:
 
 1) something at a position that you want to always stay on screen regardless, like a header
@@ -10,43 +9,42 @@ Two use cases:
 	<div id="slide">this is my special content</div>
 </div>
 
-
  */
 
 (function($){
 
 	$.fn.keepVisible = function(keepInside){
-		
 		// if no parent id then
 		var margin = {
 			top: 0,
 			bottom: 0
-		};
+			},
+			height = this.height(),
+			width  = this.width(),
+			outerHeight = this.outerHeight(),
+			outerWidth  = this.outerWidth(),
+			offset = this.offset(),
+			slider = this,
+			placeHolder,
+			modeFlow = 0, modeTop = 1, modeBottom = 2,
+			mode = modeFlow,
+			check;
 
-		// get the normal size
-		var height = this.height();
-		var width  = this.width();
-		var outerHeight = this.outerHeight();
-		var outerWidth  = this.outerWidth();
-		var offset = this.offset();
 		if (keepInside){
 			margin.top = offset.top;
 			margin.bottom = $(document).outerHeight() - offset.top - outerHeight;
 		}
 
-		var slider = this;
 		// make a placeholder
-		var placeHolder = $('<div class="placeholder">placeholder</div>')
+		placeHolder = $('<div class="placeholder" />')
 			.css({height: outerHeight, width: outerWidth, display: 'none'})
 			.insertBefore(this);
 
 		// make the 
-		var modeFlow = 0, modeTop = 1, modeBottom = 2;
-		var mode = modeFlow;
-		var check = function(){
-			var scrollTop = $(window).scrollTop();
-			var winHeight = $(window).height();
-			var oldMode = mode;
+		check = function(){
+			var scrollTop = $(window).scrollTop(),
+				winHeight = $(window).height(),
+				oldMode = mode;
 			mode = modeFlow;
 
 			// has the slider overlapped the window frame?
@@ -67,11 +65,13 @@ Two use cases:
 					'position': 'static',
 					'height': 'auto',
 					'width': 'auto'
-				});
+				})
+				.removeClass('fixed')
 				return;
 			}
 			placeHolder.show();
 			slider.css('position', 'fixed')
+				.addClass('fixed')
 				.width(width)
 				.height(height);
 			if (mode & modeBottom){
