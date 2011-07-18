@@ -1,0 +1,86 @@
+<project name="javascript" default="all" basedir=".">
+
+	<property file="project.properties"/>
+	<property name="PREFIX"  value="." />
+	<property name="dists"   value="${PREFIX}/dist/" />
+	<property name="dist"    value="${dists}/${name}-${version}" description="Folder for output and min target" />
+	<property name="src"     value="${PREFIX}/src" />
+	<property name="lib"     value="lib" />
+	<property name="docs"    value="${PREFIX}/docs" />
+	<property name="zip"     value="${dists}/${name}-${version}.zip" />
+
+	<property name="JS"      value="${dist}/${name}.js" />
+	<property name="JS_MIN"  value="${dist}/${name}-min.js" />
+	<property name="CSS"     value="${dist}/${name}.css" />
+	<property name="CSS_MIN" value="${dist}/${name}-min.css" />
+
+	<target name="all" depends="dist" />
+	<target name="docs" depends="jsdoc" />
+
+	<target name="build" depends="clean" description="Main build, concatenates source files and replaces @VERSION">
+		<echo message="Building ${JS}" />
+		<mkdir dir="${dist}" />
+		<concat destfile="${JS}">
+			<fileset file="${src}/*.js" />
+		</concat>
+		<concat destfile="${CSS}">
+			<fileset file="${src}/phototopo.css" />
+		</concat>
+		<replaceregexp match="@VERSION" replace="${version}" flags="g" byline="true" file="${JS}" />
+		<echo message="Project built." />
+	</target>
+	<target name="dist" depends="min" description="Makes a zip ready for distribution">
+		<zip destfile="${zip}" basedir="${dists}" />
+	</target>
+	<target name="thecrag" depends="build" description="Deploy files directly into thecrag">
+		<exec executable="scp">
+			<arg value="-r" />
+			<arg value="${dist}" />
+			<arg value="crag:/home/bheywood/CIDS/CIDS/application/frontend/thirdparty/static/bheywood" />
+		</exec>
+	</target>
+
+	<target name="lint" depends="" description="Check src against JSLint">
+		<exec executable="java">
+			<arg line="-jar ${lib}/js.jar ${lib}/jslint-check.js" />
+		</exec>
+	</target>
+
+	<target name="min" depends="build" description="Remove all comments and whitespace, no compression, great in combination with GZip">
+		<echo message="Building ${JS_MIN}" />
+		<java fork="true" jar="${lib}/yuicompressor-2.4.2.jar">
+			<arg line="--type=js" />
+			<arg path="${JS}" />
+			<arg line="-v" />
+			<arg line="-o" />
+			<arg path="${JS_MIN}" />
+		</java>
+		<java fork="true" jar="${lib}/yuicompressor-2.4.2.jar">
+			<arg line="--type=css" />
+			<arg path="${CSS}" />
+			<arg line="-v" />
+			<arg line="-o" />
+			<arg path="${CSS_MIN}" />
+		</java>
+		<echo message="${JS_MIN} and ${CSS_MIN} built." />
+	</target>
+
+	<target name="jsdoc" depends="build" description="Build JSDocs">
+		<delete dir="docs" />
+		<mkdir dir="docs" />
+		<echo message="Building JSDocs" />
+		<java fork="true" jar="${jsdoc.home}/jsrun.jar">
+			<arg line="${jsdoc.home}/app/run.js" />
+			<arg line=" -a" />
+			<arg line="-t=${jsdoc.home}/templates/jsdoc" />
+			<arg line="${src}/phototopo.js" />
+			<arg line="-d=docs" />
+		</java>
+	</target>
+
+	<target name="clean">
+		<delete dir="${dists}" />
+	</target>
+
+
+</project>
